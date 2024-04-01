@@ -127,22 +127,9 @@ jobs:
         if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
         run: |
           # Set up compilation source code
-          if [[ "${{ inputs.source_branch }}" == *"openwrt"* ]]; then
-              REPO_URL="https://github.com/openwrt/openwrt"
-              REPO_BRANCH="main"
-              TAGS_NAME="official"
-          elif [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
-              REPO_URL="https://github.com/coolsnowwolf/lede"
-              REPO_BRANCH="master"
-              TAGS_NAME="lede"
-          elif [[ "${{ inputs.source_branch }}" == *"immortalwrt"* ]]; then
-              REPO_URL="https://github.com/immortalwrt/immortalwrt"
-              REPO_BRANCH="master"
-              TAGS_NAME="immortalwrt"
-          else
-              echo "Unknown source code repository."
-              exit 1
-          fi
+          REPO_URL="https://github.com/coolsnowwolf/lede"
+          REPO_BRANCH="master"
+          TAGS_NAME="lede"
 
           # Clone source code
           git clone -q --single-branch --depth=1 --branch=${REPO_BRANCH} ${REPO_URL} openwrt
@@ -253,11 +240,15 @@ jobs:
             - Default IP: 192.168.2.24
             - Default username: root
             - Default password: password
-            - Default WIFI name: OpenWrt
-            - Default WIFI password: none
             ### Install to EMMC
             - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
             ### OpenWrt source code
             - [${{ steps.codes.outputs.TAGS_NAME }}](${{ steps.codes.outputs.REPO_URL }})
             ### OpenWrt Image Verification
             - sha256sum
+            
+        #推送完成的消息    
+      - name: Push Message
+        uses: tyrrrz/action-http-request@master
+        with:
+         url: "https://qmsg.zendee.cn/send/4149439465ff0ff0fe700a9e31cf2a67?msg=OK"
