@@ -16,6 +16,9 @@ sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/lean/auto
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.2.24/g' package/base-files/files/bin/config_generate
 
+# 修复 armv8 设备 xfsprogs 报错
+sed -i 's/TARGET_CFLAGS.*/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/g' feeds/packages/utils/xfsprogs/Makefile
+
 # Modify default theme
 #sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
@@ -23,19 +26,22 @@ sed -i 's/192.168.1.1/192.168.2.24/g' package/base-files/files/bin/config_genera
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
 
 #删除旧的软件包
+rm -rf package/feeds/luci/applications/luci-app-smartdns
 rm -rf package/feeds/smpackage/UnblockNeteaseMusic
 rm -rf package/feeds/smpackage/UnblockNeteaseMusic-Go
 rm -rf package/feeds/luci/luci-app-unblockmusic
+
 
 #下载新的解锁网易云插件
 git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/feeds/luci-app-unblockneteasemusic
 
 #下载新的clahs
-git clone https://github.com/vernesong/OpenClash.git package/feeds/luci-app-openclash
+svn co https://github.com/vernesong/OpenClash/tree/master/luci-app-openclash package/feeds/luci-app-openclash
 # 编译 po2lmo (如果有po2lmo可跳过)
-pushd luci-app-openclash/tools/po2lmo
+pushd package/feeds/luci-app-openclash/tools/po2lmo
 make && sudo make install
 popd
 
-
+./scripts/feeds update -a
+./scripts/feeds install -a
 
