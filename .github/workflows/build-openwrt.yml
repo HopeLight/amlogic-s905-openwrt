@@ -212,18 +212,15 @@ jobs:
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      #打包成镜像
-      - name: Packaging OpenWrt
+      #采用F大打包脚本
+      - name: Package OpenWrt Firmware
         if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
-        uses: ophub/amlogic-s9xxx-openwrt@main
-        with:
-          openwrt_path: openwrt/output/*rootfs.tar.gz
-          openwrt_board: ${{ inputs.openwrt_board }}
-          openwrt_kernel: ${{ inputs.openwrt_kernel }}
-          auto_kernel: ${{ inputs.auto_kernel }}
-          kernel_repo: ${{ inputs.kernel_repo }}
-          kernel_usage: ${{ inputs.kernel_usage }}
-          builder_name: ${{ inputs.builder_name }}
+        uses: ophub/flippy-openwrt-actions@main
+        env:
+         OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
+         PACKAGE_SOC: s905x3
+         KERNEL_VERSION_NAME: 6.6.23
+         KERNEL_AUTO_LATEST: false
 
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
