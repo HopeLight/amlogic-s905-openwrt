@@ -10,6 +10,16 @@
 # See /LICENSE for more information.
 #
 
+# Git稀疏克隆，只克隆指定目录到本地
+function git_sparse_clone() {
+  branch="$1" repourl="$2" && shift 2
+  git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
+  repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
+  cd $repodir && git sparse-checkout set $@
+  mv -f $@ ../package/feeds
+  cd .. && rm -rf $repodir
+}
+
 # Add autocore support for armvirt
 sed -i 's/TARGET_rockchip/TARGET_rockchip\|\|TARGET_armvirt/g' package/lean/autocore/Makefile
 
@@ -36,7 +46,7 @@ rm -rf package/feeds/luci/luci-app-unblockmusic
 git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/feeds/luci-app-unblockneteasemusic
 
 #下载新的clahs
-svn co https://github.com/vernesong/OpenClash/tree/master/luci-app-openclash package/feeds/luci-app-openclash
+git_sparse_clone master https://github.com/vernesong/OpenClash luci-app-openclash
 # 编译 po2lmo (如果有po2lmo可跳过)
 pushd package/feeds/luci-app-openclash/tools/po2lmo
 make && sudo make install
