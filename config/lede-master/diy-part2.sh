@@ -39,8 +39,8 @@ sed -i 's/TARGET_CFLAGS.*/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE
 rm -rf package/feeds/luci/applications/luci-app-smartdns
 rm -rf package/feeds/smpackage/UnblockNeteaseMusic
 rm -rf package/feeds/smpackage/UnblockNeteaseMusic-Go
+rm -rf package/feeds/smpackage/luci-app-openclash
 rm -rf package/feeds/luci/luci-app-unblockmusic
-
 
 #下载新的解锁网易云插件
 git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/feeds/luci-app-unblockneteasemusic
