@@ -43,7 +43,7 @@ rm -rf package/feeds/smpackage/luci-app-openclash
 rm -rf package/feeds/luci/luci-app-unblockmusic
 
 #下载新的解锁网易云插件
-git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/feeds/luci-app-unblockneteasemusic
+git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/luci-app-unblockneteasemusic
 
 #下载新的clahs
 git_sparse_clone master https://github.com/vernesong/OpenClash luci-app-openclash
