@@ -9,25 +9,14 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      source_branch:
-        description: "Select the source branch"
-        required: false
-        default: "lede-master"
-      openwrt_storage:
-        description: "Select image storage type."
-        required: false
-        default: "save"
-        type: choice
-        options:
-          - save
-          - temp
       kernel_version:
         description: "Set a kernel's version"
         required: true
         type: string
       kernel_version_autoUpdate:
-        description: "Set a kernel's version is auto update"
+        description: "Set a kernel's version is autoUpdate"
         required: false
+        default: false
         type: boolean
       builder:
         description: "Set a builder"
@@ -91,7 +80,7 @@ jobs:
           sudo chown -R runner.runner /builder
           df -Th
 
-      - name: Clone source code [ ${{ inputs.source_branch }} ]
+      - name: Clone source code [ lede-master ]
         id: codes
         working-directory: /builder
         if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
@@ -107,7 +96,7 @@ jobs:
           ln -sf /builder/openwrt /home/runner/work/_actions/ophub/amlogic-s9xxx-openwrt/main/openwrt
 
           # Set output information
-          echo "build_tag=OpenWrt_${TAGS_NAME}_${{ inputs.openwrt_storage }}_$(date +"%Y.%m")" >> ${GITHUB_OUTPUT}
+          echo "build_tag=OpenWrt_${TAGS_NAME}_save_$(date +"%Y.%m")" >> ${GITHUB_OUTPUT}
           echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]\nTAGS_NAME: [ ${TAGS_NAME} ]"
           df -hT ${PWD}
           echo "REPO_URL=${REPO_URL}" >> ${GITHUB_OUTPUT}
