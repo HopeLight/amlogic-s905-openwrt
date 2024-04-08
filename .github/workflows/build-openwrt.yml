@@ -182,6 +182,7 @@ jobs:
          KERNEL_AUTO_LATEST: ${{ kernel_version_autoUpdate }}
          WHOAMI: ${{ inputs.builder }}
          
+      #上传镜像文件    
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
