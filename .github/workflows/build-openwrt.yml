@@ -179,7 +179,7 @@ jobs:
          OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
          PACKAGE_SOC: s905x3
          KERNEL_VERSION_NAME: ${{ inputs.kernel_version }}
-         KERNEL_AUTO_LATEST: ${{ kernel_autoUpdate }}
+         KERNEL_AUTO_LATEST: ${{ inputs.kernel_autoUpdate }}
          WHOAMI: ${{ inputs.builder }}
          
       #上传镜像文件    
