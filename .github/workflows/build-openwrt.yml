@@ -214,14 +214,15 @@ jobs:
 
       #采用F大打包脚本
       - name: Package OpenWrt Firmware
-        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         uses: ophub/flippy-openwrt-actions@main
+        if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         env:
          OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
          PACKAGE_SOC: s905x3
-         KERNEL_VERSION_NAME: 6.6.23
+         KERNEL_VERSION_NAME: 6.6.25
          KERNEL_AUTO_LATEST: false
-
+         WHOAMI: HopeLight
+         
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
