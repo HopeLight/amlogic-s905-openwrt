@@ -26,14 +26,14 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "6.1.y_5.15.y"
+        default: "6.6.y"
         type: choice
         options:
           - 6.6.23
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
-        default: true
+        default: false
         type: boolean
       kernel_repo:
         description: "Set the kernel repository"
@@ -219,7 +219,7 @@ jobs:
         env:
          OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
          PACKAGE_SOC: s905x3
-         KERNEL_VERSION_NAME: 6.6.25
+         KERNEL_VERSION_NAME: 6.6.23
          KERNEL_AUTO_LATEST: false
          WHOAMI: HopeLight
          
@@ -238,6 +238,8 @@ jobs:
             - Default IP: 192.168.2.24
             - Default username: root
             - Default password: password
+            ### Build Date
+            - ${{ env.PACKAGED_OUTPUTDATE }}
             ### Install to EMMC
             - Login to OpenWrt → System → Amlogic Service → Install OpenWrt
             ### OpenWrt source code
