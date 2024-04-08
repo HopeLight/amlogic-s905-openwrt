@@ -14,8 +14,6 @@ on:
         required: false
         default: "lede-master"
         type: choice
-        options:
-          - lede-master
       openwrt_storage:
         description: "Select image storage type."
         required: false
@@ -24,7 +22,15 @@ on:
         options:
           - save
           - temp
-
+      kernel_version:
+        description: "Set a kernel's version"
+        required: true
+        type: string
+      builder:
+        description: "Set a builder"
+        required: false
+        default: "HopeLight"
+        type: string
 
 env:
   FEEDS_CONF: config/${{ inputs.source_branch }}/feeds.conf.default
