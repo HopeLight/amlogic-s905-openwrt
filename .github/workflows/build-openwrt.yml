@@ -13,7 +13,6 @@ on:
         description: "Select the source branch"
         required: false
         default: "lede-master"
-        type: choice
       openwrt_storage:
         description: "Select image storage type."
         required: false
