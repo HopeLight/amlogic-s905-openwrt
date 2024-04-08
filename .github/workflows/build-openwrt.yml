@@ -26,6 +26,10 @@ on:
         description: "Set a kernel's version"
         required: true
         type: string
+      kernel_version_autoUpdate:
+        description: "Set a kernel's version is auto update"
+        required: false
+        type: boolean
       builder:
         description: "Set a builder"
         required: false
@@ -186,9 +190,9 @@ jobs:
         env:
          OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
          PACKAGE_SOC: s905x3
-         KERNEL_VERSION_NAME: 6.6.23
-         KERNEL_AUTO_LATEST: false
-         WHOAMI: HopeLight
+         KERNEL_VERSION_NAME: ${{ inputs.kernel_version }}
+         KERNEL_AUTO_LATEST: ${{ kernel_version_autoUpdate }}
+         WHOAMI: ${{ inputs.builder }}
          
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
@@ -205,6 +209,8 @@ jobs:
             - Default IP: 192.168.2.24
             - Default username: root
             - Default password: password
+            ### Kernel Version
+            - ${{ inputs.kernel_version }}
             ### Build Date
             - ${{ env.PACKAGED_OUTPUTDATE }}
             ### Install to EMMC
